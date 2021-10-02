@@ -9,7 +9,8 @@
     ],
     "description": "CMS for Minecraft by Wolf_TMB",
     "require": {
-        "phroute/phroute": "^2.1"
+        "phroute/phroute": "^2.1",
+      "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {

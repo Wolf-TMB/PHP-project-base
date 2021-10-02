@@ -2,31 +2,44 @@
 
 namespace App;
 
+use PDO;
+use Exception;
+use App\Models\Users;
 use App\Helpers\Router;
 use App\Helpers\Render;
+use App\Helpers\Sender;
 use App\Helpers\Session;
 use App\Helpers\Security;
+use App\Helpers\Database;
+use App\Helpers\ErrorCatcher;
 use App\Exceptions\BaseException;
-use App\Exceptions\RenderException;
 use App\Exceptions\RoutesFileNotFound;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 class App {
-    public static string $site_path;
+	public static string $site_path;
 	public static array $parse_uri;
 	public static string $redirect_url;
 	public static string $method;
-    public static Config $config;
+	public static Config $config;
 	public static Constants $const;
 	public static Session $session;
 	public static Security $security;
+	public static Sender $sender;
 	public static Router $router;
 	public static Render $render;
+	public static PDO $db;
 
-    public function __construct() {
-        $this->initApp();
-    }
+	public static Users $users;
+
+	private static Database $database;
+
+	public function __construct() {
+		new ErrorCatcher();
+
+		$this->initApp();
+	}
 
 	private function initApp() {
 		ob_start();
@@ -45,8 +58,13 @@ class App {
 
 		self::$session = new Session();
 		self::$security = new Security();
+		self::$sender = new Sender();
+		self::$database = new Database();
 
 		self::$router = new Router();
+		self::$users = new Users();
+
+
 		self::$render = new Render();
 
 	}
@@ -97,11 +115,14 @@ class App {
 			if ($e->isFatal()) {
 				Render::fatalError($e);
 			}
+		} catch (Exception $e) {
+			Render::fatalError($e);
 		}
 	}
 
 	public function runApp() {
-	    self::$security->run();
+		self::$db = self::$database->getConnection();
+		self::$security->run();
 		$this->runRouter();
 	}
 }

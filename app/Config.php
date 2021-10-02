@@ -11,6 +11,15 @@ class Config {
     public const PATH_BASE = '/';
     public const LANGUAGE = 'ru';
 
+	/**
+	 *  Настройка подключения к базе данных
+	 */
+	public const DB_HOST = '';
+	public const DB_USER = '';
+	public const DB_PASS = '';
+	public const DB_NAME = '';
+	public const DB_PORT = '3306';
+	public const DB_DRIVER = 'mysql';
 
     /**
      *  Настройка путей папки ресурсов. Используется для рендера страниц.
