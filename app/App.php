@@ -4,10 +4,8 @@ namespace App;
 
 use PDO;
 use Exception;
-use App\Models\Users;
 use App\Helpers\Router;
 use App\Helpers\Render;
-use App\Helpers\Sender;
 use App\Helpers\Session;
 use App\Helpers\Security;
 use App\Helpers\Database;
@@ -26,12 +24,10 @@ class App {
 	public static Constants $const;
 	public static Session $session;
 	public static Security $security;
-	public static Sender $sender;
 	public static Router $router;
 	public static Render $render;
 	public static PDO $db;
 
-	public static Users $users;
 
 	private static Database $database;
 
@@ -58,11 +54,9 @@ class App {
 
 		self::$session = new Session();
 		self::$security = new Security();
-		self::$sender = new Sender();
 		self::$database = new Database();
 
 		self::$router = new Router();
-		self::$users = new Users();
 
 
 		self::$render = new Render();
